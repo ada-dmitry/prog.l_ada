@@ -1,14 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<time.h>
-#include<error.h>
-
-#define N 5
-
-struct st1{
-    int i;
-    char s[128];
-};
+#include "st_func.h"
 
 void st_rand(struct st1 temp[], int n){
     int k;
@@ -24,22 +16,9 @@ void st_rand(struct st1 temp[], int n){
     }
 }
 
-/*void swap(struct st1 temp[], int c, int d, int n){
-        Дописать функцию!
-}
-*/
 void st_print(struct st1 temp[], int n){
     int k;
     for(k=0;k<n;k++){
         printf("%d->[%2d][%s]\n", k, temp[k].i, (temp+k)->s);
     }
-}
-
-int main(int argc, char *argv[]){
-    struct st1 q[N];
-
-    st_rand(q,N);
-    st_print(q,N);
-
-    return 0;
 }

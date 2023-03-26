@@ -16,6 +16,7 @@ void sort_Select(int x, int *arr){
     }
 
 }
+//meow
 void sort_insert(int l, int *arr){
     int i, j, x;
     for(i=0;i<l;i++){

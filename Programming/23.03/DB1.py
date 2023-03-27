@@ -14,7 +14,7 @@ creat_qwery = """ create table Parser
 cursor.execute(creat_qwery)
 connection.commit()
 
-driver = Service('D:\teach\Prog\chromedriver.exe') 
+driver = Service('D:\\teach\Prog\chromedriver.exe') 
 browser = webdriver.Chrome(service=driver)
 browser.get('https://amwine.ru/catalog/igristoe_vino_i_shampanskoe/igristoe_vino/')
 html_code = browser.page_source

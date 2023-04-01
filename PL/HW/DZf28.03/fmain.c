@@ -1,12 +1,13 @@
 #include "funcHeader.h"
 
-
-int main() {
+int main()
+{
     srand(time(0));
-    People* professions1 = malloc(sizeof(People) * COUN);
-    People* professions2 = malloc(sizeof(People) * COUN);
+    People *professions1 = malloc(sizeof(People) * COUN);
+    People *professions2 = malloc(sizeof(People) * COUN);
 
-    if (professions1 == NULL || professions2 == NULL) {
+    if (professions1 == NULL || professions2 == NULL)
+    {
         printf("Mesta net\n");
         exit(1);
     }
@@ -27,7 +28,7 @@ int main() {
     printf("\nVtoroi massiv posle sort:\n");
     print_struc(professions2, COUN);
 
-    People* ans = binSearch(professions1, COUN, 15);
+    People *ans = binSearch(professions1, COUN, 15);
 
     if (ans == NULL)
         printf("\nPeoples net\n");
@@ -47,9 +48,10 @@ int main() {
     int line_number = lines_numf("professions.txt");
     printf("\nNumber of lines in professions.txt is %d\n", line_number);
 
-    People* professions3 = malloc(sizeof(People) * line_number);
+    People *professions3 = malloc(sizeof(People) * line_number);
 
-    if (professions3 == NULL) {
+    if (professions3 == NULL)
+    {
         printf("Mesta net\n");
         exit(1);
     }

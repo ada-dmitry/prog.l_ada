@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+/* function to solve the Tower of Hanoi puzzle */
+void tower_of_hanoi(int n, char from, char to, char aux)
+{
+    /* base case - when there's only one disk present */
+    if (n == 1)
+    {
+        printf("Move disk 1 from rod %c to rod %c\n", from, to);
+        return;
+    }
+    /* move n-1 disks from the source to auxiliary rod */
+    tower_of_hanoi(n - 1, from, aux, to);
+    /* move the remaining one disk from the source to destination rod */
+    printf("Move disk %d from rod %c to rod %c\n", n, from, to);
+    /* move n-1 disks from the auxiliary to destination rod */
+    tower_of_hanoi(n - 1, aux, to, from);
+}
+
+int main()
+{
+    int n;
+    /* ask user for the number of disks */
+    printf("Enter the number of disks: ");
+    scanf("%d", &n);
+    /* call the tower_of_hanoi function to solve the puzzle */
+    tower_of_hanoi(n, 'A', 'C', 'B');
+
+    return 0;
+}

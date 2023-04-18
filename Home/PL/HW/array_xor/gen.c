@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
         printf("could not malloc\n");
         exit(2);
     }
-
+    printf("Error here 1");
     int i;
     for (i = 0; i < COUNT; i++) {
         char s[LEN];

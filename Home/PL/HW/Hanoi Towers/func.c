@@ -1,14 +1,14 @@
 #include "head.h"
 
 
-void linked_print(LinkedList* l) {    
+void linked_print(LinkList* l) {    
     while (l != NULL) {
         printf("%d %s\n", l->x, l->name);
         l = l->next;
     }
 }
 
-LinkedList* add_tail(LinkedList* l, LinkedList node) {
+LinkList* add_tail(LinkList* l, LinkList node) {
     if (l->x == 0 && !strcmp(l->name, "\0")) {
         l->x = node.x;
         memcpy(l->name, node.name, LEN);
@@ -17,10 +17,10 @@ LinkedList* add_tail(LinkedList* l, LinkedList node) {
         return l;
     }
 
-    LinkedList* res = l;
+    LinkList* res = l;
     while (l->next != NULL) l = l->next;
 
-    LinkedList* tmp = malloc(sizeof(LinkedList));
+    LinkList* tmp = malloc(sizeof(LinkList));
     tmp->x = node.x;
     memcpy(tmp->name, node.name, LEN);
     tmp->prev = l;
@@ -28,7 +28,7 @@ LinkedList* add_tail(LinkedList* l, LinkedList node) {
     return res;
 }
 
-LinkedList* add_head(LinkedList* l, LinkedList node) {
+LinkList* add_head(LinkList* l, LinkList node) {
     if (l->x == 0 && !strcmp(l->name, "\0")) {
         l->x = node.x;
         memcpy(l->name, node.name, LEN);
@@ -37,7 +37,7 @@ LinkedList* add_head(LinkedList* l, LinkedList node) {
         return l;
     }
 
-    LinkedList* tmp = malloc(sizeof(LinkedList));
+    LinkList* tmp = malloc(sizeof(LinkList));
     if (tmp == NULL)
         exit(1);
     
@@ -49,19 +49,19 @@ LinkedList* add_head(LinkedList* l, LinkedList node) {
     return tmp;
 }
 
-LinkedList* del_head(LinkedList* l) {
+LinkList* del_head(LinkList* l) {
     if (l == NULL) return NULL;
     if (l->next == NULL) {
         free(l);
         return NULL;
     }
-    LinkedList* tmp = l->next;
+    LinkList* tmp = l->next;
     tmp->prev = NULL;
     free(l);
     return tmp;
 }
 
-void del_tail(LinkedList* l) {
+void del_tail(LinkList* l) {
     if (l == NULL) return;
     else if (l->next == NULL) {
         free(l);
@@ -69,13 +69,13 @@ void del_tail(LinkedList* l) {
         return;
     }
     while (l->next != NULL) l = l->next;
-    LinkedList* tmp = l->prev;
+    LinkList* tmp = l->prev;
     l->prev = NULL;
     free(l);
     tmp->next = NULL;
 }
 
-int len(LinkedList* l) {
+int len(LinkList* l) {
     int res = 0;
     if (l->x == 0 && !strcmp(l->name, "\0"))
         return 0;
@@ -87,7 +87,7 @@ int len(LinkedList* l) {
     return res;
 }
 
-LinkedList get(LinkedList* l, int n) {
+LinkList get(LinkList* l, int n) {
     if (n > len(l)) exit(3);
     int i;
     for (i = 0; i < n; i++) {
@@ -96,7 +96,7 @@ LinkedList get(LinkedList* l, int n) {
     return *l;
 }
 
-void tower_of_hanoi(int n, LinkedList* start, LinkedList* finish, LinkedList* tmp) {
+void tower_of_hanoi(int n, LinkList* start, LinkList* finish, LinkList* tmp) {
     if (n == 1) {
         finish = add_head(finish, get(start, 0));
         start = del_head(start);
@@ -118,11 +118,11 @@ void tower_of_hanoi(int n, LinkedList* start, LinkedList* finish, LinkedList* tm
     linked_print(tmp);
 }
 
-void linked_free(LinkedList* l) {
+void linked_free(LinkList* l) {
     while (l->next != NULL) l = l->next;
 
     while (l->prev != NULL) {
-        LinkedList* tmp = l;
+        LinkList* tmp = l;
         l = l->prev;
         free(tmp);
     }

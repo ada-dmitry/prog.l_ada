@@ -6,14 +6,15 @@
 #define COUNT 3
 #define LEN 3
 
-typedef struct Node {
+typedef struct Node
+{
     char name[LEN];
-    struct Node* next;
-    struct Node* prev;
+    struct Node *next;
+    struct Node *prev;
 } Node;
 
-void node_print(Node* n);
-Node* add_tail(Node* n, char s[]);
-Node get(Node* node, int n);
-Node* xor_find(Node* n1, Node* n2);
-int len(Node* n);
+void node_print(Node *n);
+Node *add_tail(Node *n, char s[]);
+Node get(Node *node, int n);
+Node *xor_find(Node *n1, Node *n2);
+int len(Node *n);

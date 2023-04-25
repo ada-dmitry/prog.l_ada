@@ -3,9 +3,9 @@
 
 int main(int argc, char* argv[]) {
     srand(time(0));
-    LinkedList* l1 = malloc(sizeof(LinkedList));
-    LinkedList* l2 = malloc(sizeof(LinkedList));
-    LinkedList* l3 = malloc(sizeof(LinkedList));
+    LinkList* l1 = malloc(sizeof(LinkList));
+    LinkList* l2 = malloc(sizeof(LinkList));
+    LinkList* l3 = malloc(sizeof(LinkList));
 
     if (l1 == NULL || l2 == NULL || l3 == NULL)
         exit(1);
@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
             s[j] = 'a' + rand() % 25;
         s[j + 1] = '\0';
         
-        LinkedList l;
+        LinkList l;
         l.x = i;
         memcpy(l.name, s, LEN);
         l.next = NULL;

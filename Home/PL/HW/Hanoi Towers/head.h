@@ -6,19 +6,19 @@
 #define N 3
 #define LEN 8
 
-typedef struct LinkedList {
+typedef struct LinkList {
     int x;
     char name[LEN];
-    struct LinkedList* next;
-    struct LinkedList* prev;
-} LinkedList;
+    struct LinkList* next;
+    struct LinkList* prev;
+} LinkList;
 
-void linked_print(LinkedList* l);
-LinkedList* add_tail(LinkedList* l, LinkedList node);
-LinkedList* add_head(LinkedList* l, LinkedList node);
-LinkedList* del_head(LinkedList* l);
-void del_tail(LinkedList* l);
-int len(LinkedList* l);
-LinkedList get(LinkedList* l, int n);
-void tower_of_hanoi(int n, LinkedList* start, LinkedList* finish, LinkedList* tmp);
-void linked_free(LinkedList* l);
+void linked_print(LinkList* l);
+LinkList* add_tail(LinkList* l, LinkList node);
+LinkList* add_head(LinkList* l, LinkList node);
+LinkList* del_head(LinkList* l);
+void del_tail(LinkList* l);
+int len(LinkList* l);
+LinkList get(LinkList* l, int n);
+void tower_of_hanoi(int n, LinkList* start, LinkList* finish, LinkList* tmp);
+void linked_free(LinkList* l);

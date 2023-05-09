@@ -62,13 +62,13 @@ tree *maxim(tree *root)
 
 tree *findForDel(tree *root)
 {
-    tree *p = root, *lef = NULL; // Если есть правое поддерево, то ищем минимальный элемент в этом поддереве
-    if (p -> right != NULL)
-        return minim(p -> right);
-    lef = p -> parent;
-    while ((lef != NULL) && (p == lef -> right))
+    tree *rig = root, *lef = NULL; // Если есть правое поддерево, то ищем минимальный элемент в этом поддереве
+    if (rig -> right != NULL)
+        return minim(rig -> right);
+    lef = rig -> parent;
+    while ((lef != NULL) && (rig == lef -> right))
     {
-        p = lef;
+        rig = lef;
         lef = lef -> parent;
     }
     return lef;
@@ -77,7 +77,7 @@ tree *findForDel(tree *root)
 tree *del_node(tree *root, int field)
 {
 // Поиск удаляемого узла по ключу
-    tree *p = root, *lef = NULL, *tmp = NULL;
+    tree *rig = root, *lef = NULL, *tmp = NULL;
     lef = find_node(root, field);
 // 1 случай: у узла нет потомков
     if ((lef -> left == NULL) && (lef -> right == NULL))

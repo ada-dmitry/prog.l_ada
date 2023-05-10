@@ -1,4 +1,8 @@
 #include "head.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 Stack get(Stack *l, int n) {
   if (n > len(l))

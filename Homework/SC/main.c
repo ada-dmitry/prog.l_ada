@@ -1,4 +1,8 @@
 #include "head.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 int main(int argc, char *argv[]) {
   srand(time(0));
@@ -54,7 +58,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  printf("result: %lF\n", get(numbers, 0).x);
+  printf("result: %lF\n", get(numbers, -1).x);
 
   free(numbers);
   return 0;

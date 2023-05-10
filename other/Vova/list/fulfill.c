@@ -15,8 +15,6 @@ int main(int argc, char *argv[])
     }
     n1 = add_tail(n1, "tail");
 
-    printf("First error\n");
-
     int i;
     for (i = 0; i < CO; i++)
     {

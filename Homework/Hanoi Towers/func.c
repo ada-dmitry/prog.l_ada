@@ -5,7 +5,7 @@
 #include <time.h>
 #include <string.h>
 
-void pr(node *tmp)
+void pr(tower *tmp)
 {
     if (tmp == NULL)
     {
@@ -20,11 +20,11 @@ void pr(node *tmp)
     }
     printf("-------------\n");
 }
-node *add_head(node *head, int hh)
+tower *add_head(tower *crown, int hh)
 {
-    node *tmp = NULL;
+    tower *tmp = NULL;
     int i;
-    if ((tmp = malloc(sizeof(node))) == NULL)
+    if ((tmp = malloc(sizeof(tower))) == NULL)
     {
         perror("malloc: NULL");
         exit(2);
@@ -34,34 +34,34 @@ node *add_head(node *head, int hh)
     for (i = 0; i < N - 1; i++)
         tmp->s[i] = ((char)(65 + rand() % 25));
     tmp->s[N - 1] = '\0';
-    if (head == NULL)
+    if (crown == NULL)
         tmp->next = NULL;
     else
     {
-        tmp->next = head;
-        head->prev = tmp;
+        tmp->next = crown;
+        crown->prev = tmp;
     }
     return tmp;
 }
-node *del_head(node *head)
+tower *del_head(tower *crown)
 {
-    node *tmp = head;
-    if (head == NULL)
+    tower *tmp = crown;
+    if (crown == NULL)
         return NULL;
-    if (head->next == NULL)
+    if (crown->next == NULL)
     {
-        free(head);
+        free(crown);
         return NULL;
     }
-    head = head->next;
-    head->prev = NULL;
+    crown = crown->next;
+    crown->prev = NULL;
     free(tmp);
-    return head;
+    return crown;
 }
 
-int length(node *list)
+int length(tower *list)
 {
-    node *tmp = list;
+    tower *tmp = list;
     int res = 0;
     if (list == NULL)
         return 0;
@@ -80,10 +80,10 @@ int length(node *list)
     return res;
 }
 
-node *adv_add_head(node *head, int hh, char string[])
+tower *adv_add_head(tower *crown, int hh, char string[])
 {
-    node *tmp = NULL;
-    if ((tmp = malloc(sizeof(node))) == NULL)
+    tower *tmp = NULL;
+    if ((tmp = malloc(sizeof(tower))) == NULL)
     {
         perror("malloc: NULL");
         exit(2);
@@ -91,19 +91,19 @@ node *adv_add_head(node *head, int hh, char string[])
     tmp->prev = NULL;
     tmp->data = hh;
     memcpy(tmp->s, string, N);
-    if (head == NULL)
+    if (crown == NULL)
         tmp->next = NULL;
     else
     {
-        tmp->next = head;
-        head->prev = tmp;
+        tmp->next = crown;
+        crown->prev = tmp;
     }
     return tmp;
 }
-void swap(node *a, node *b)
+void swap(tower *a, tower *b)
 {
-    node *tmp = NULL;
-    if ((tmp = malloc(sizeof(node))) == NULL)
+    tower *tmp = NULL;
+    if ((tmp = malloc(sizeof(tower))) == NULL)
         exit(1);
     tmp->data = a->data;
     a->data = b->data;
@@ -114,7 +114,7 @@ void swap(node *a, node *b)
     free(tmp);
 }
 
-node *get(node *list, int n)
+tower *get(tower *list, int n)
 {
     if (n >= length(list))
         exit(3);
@@ -124,46 +124,46 @@ node *get(node *list, int n)
     return list;
 }
 
-node *sort(node *head)
+tower *sort(tower *crown)
 {
-    if (head == NULL || head->next == NULL)
-        return head;
-    int i, j, n = length(head);
+    if (crown == NULL || crown->next == NULL)
+        return crown;
+    int i, j, n = length(crown);
     for (i = 0; i < n - 1; i++)
     {
         for (j = i + 1; j < n; j++)
         {
-            if (get(head, j)->data < get(head, i)->data)
-                swap(get(head, i), get(head, j));
+            if (get(crown, j)->data < get(crown, i)->data)
+                swap(get(crown, i), get(crown, j));
         }
     }
-    return head;
+    return crown;
 }
-node *printextra(node *head, int len, int i)
+tower *printextra(tower *crown, int len, int i)
 {
     if (len < i || len == 0)
     {
         printf("*********************************|");
-        return head;
+        return crown;
     }
     else
     {
-        printf("[%14p] data: [%4ld] s[%s]|", head, head->data, head->s);
-        return head->prev;
+        printf("[%14p] data: [%4ld] s[%s]|", crown, crown->data, crown->s);
+        return crown->prev;
     }
 }
-node *end(node *head)
+tower *end(tower *crown)
 {
-    node *tmp = NULL;
-    tmp = head;
-    if (head == NULL)
-        return head;
+    tower *tmp = NULL;
+    tmp = crown;
+    if (crown == NULL)
+        return crown;
     while (tmp->next != NULL)
         tmp = tmp->next;
     return tmp;
 }
 
-void printftof(node *head1, node *head2, node *head3)
+void printftof(tower *head1, tower *head2, tower *head3)
 {
     int a = length(head1), b = length(head2), c = length(head3), maximum, i;
     maximum = max(a, b);
@@ -190,7 +190,7 @@ int max(int a, int b)
         return a;
 }
 
-void hanoi_tower(int n, node **head_from, node **head_to, node **head_aux, node **const tower1, node **const tower2, node **const tower3)
+void hanoi_tower(int n, tower **head_from, tower **head_to, tower **head_aux, tower **const tower1, tower **const tower2, tower **const tower3)
 {
     if (n == 0)
     {

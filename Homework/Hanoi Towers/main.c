@@ -7,22 +7,22 @@
 int main(int argc, char *argv[])
 {
 
-    node *head = NULL, *head2 = NULL, *head3 = NULL;
+    tower *crown1 = NULL, *crown2 = NULL, *crown3 = NULL;
     int r;
 
     srand(time(NULL));
 
-    printf("Generated linked list (method of head)\n");
+    printf("Generated linked list (method of crown1)\n");
     while ((r = (rand() % 100)) < 75)
-        head = add_head(head, r);
-    pr(head);
+        crown1 = add_head(crown1, r);
+    pr(crown1);
 
-    printf("Length of linked list is: %d\n", length(head));
+    printf("Length of linked list is: %d\n", length(crown1));
 
     printf("Sorted linked list\n");
-    sort(head);
-    pr(head);
+    sort(crown1);
+    pr(crown1);
 
-    hanoi_tower(length(head), &head, &head3, &head2, &head, &head2, &head3);
+    hanoi_tower(length(crown1), &crown1, &crown3, &crown2, &crown1, &crown2, &crown3);
     return 0;
 }

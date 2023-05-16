@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "head.h"
 
-tree *init_root(tree *root, int field) // Выделение памяти под корень дерева
+tree *init_root(tree *root, int field) 
 {
-    tree *tmp = malloc(sizeof(tree)); // Присваивание значения ключу
-    tmp->field = field;               // Присваивание указателю на родителя значения NULL
-    tmp->parent = NULL;               // Присваивание указателю на левое и правое поддерево значения NULL
-    tmp->left = tmp->right = NULL;
+    tree *tmp = malloc(sizeof(tree)); // Выделение памяти под корень дерева
+    tmp->field = field; // Присваивание значения ключу 
+    tmp->parent = NULL; // Присваивание указателю на родителя значения NULL
+    tmp->left = tmp->right = NULL; // Присваивание указателю на левое и правое поддерево значения NULL
     root = tmp;
     return root;
 }
@@ -79,9 +79,13 @@ tree *findForDel(tree *root)
 
 tree *del_node(tree *root, int field)
 {
+    printf("%d\n", root->field);
     // Поиск удаляемого узла по ключу
     tree *rig = root, *lef = NULL, *tmp = NULL;
+    // preorder(root);
+    printf("test");
     lef = find_node(root, field);
+
     // 1 случай: у узла нет потомков
     if ((lef->left == NULL) && (lef->right == NULL))
     {
@@ -130,28 +134,28 @@ void preorder(tree *root)
 {
     if (root == NULL)
         return;
-    if (root -> field)
-        printf("%d ", root -> field);
-    preorder(root -> left);
-    preorder(root -> right);
+    if (root->field)
+        printf("%d ", root->field);
+    preorder(root->left);
+    preorder(root->right);
 }
 
 void postorder(tree *root)
 {
     if (root == NULL)
         return;
-    postorder(root -> left);
-    postorder(root -> right);
-    if (root -> field)
-        printf("%d ", root -> field);
+    postorder(root->left);
+    postorder(root->right);
+    if (root->field)
+        printf("%d ", root->field);
 }
 
 void inorder(tree *root)
 {
     if (root == NULL)
         return;
-    inorder(root -> left);
-    if (root -> field)
-        printf("%d ", root -> field);
-    inorder(root -> right);
+    inorder(root->left);
+    if (root->field)
+        printf("%d ", root->field);
+    inorder(root->right);
 }

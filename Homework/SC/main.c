@@ -2,16 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-// Выдает неадекватные значения
+
 int main(int argc, char *argv[])
 {
   srand(time(0));
-  Stack *numbers = malloc(sizeof(Stack));
-  if (numbers == NULL)
-    exit(1);
-
+  Stack *numbers = NULL;
   char c;
-  char flag = 'n';
 
   while ((c = getchar()) != EOF)
   {
@@ -21,40 +17,23 @@ int main(int argc, char *argv[])
     }
     else if (c == ' ')
     {
-      flag = 's';
       continue;
     }
 
     switch (c)
     {
     case '0' ... '9':
-      if (flag == 's')
-      {
-        numbers = add_head(numbers, (double)(c - '0'));
-        flag = 'n';
-      }
-      else
-      {
-        double a = get(numbers, 0).x;
-        numbers = del_head(numbers);
-        a = a * 10 + c - '0';
-        numbers = add_head(numbers, a);
-      }
+      numbers = add_head(numbers, (double)(c - '0'));
       break;
 
     case '+':
     case '-':
     case '*':
     case '/':
-      if (len(numbers) < 2)
-      {
-        printf("Invalid expression\n");
-        exit(2);
-      }
 
-      double a = get(numbers, 0).x;
+      double a = numbers->x;
       numbers = del_head(numbers);
-      double b = get(numbers, 0).x;
+      double b = numbers->x;
       numbers = del_head(numbers);
 
       b = (c == '+') ? b + a : b;
@@ -67,7 +46,7 @@ int main(int argc, char *argv[])
     }
   }
 
-  printf("res: %lF\n", get(numbers, 0).x);
+  printf("res: %lF\n", numbers->x);
 
   free(numbers);
   return 0;

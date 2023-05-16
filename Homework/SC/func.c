@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void linked_print(Stack *l)
+void linked_print(Stack *l) // Вывод стека
 {
   while (l != NULL)
   {
@@ -11,7 +11,7 @@ void linked_print(Stack *l)
   }
 }
 
-Stack *add_head(Stack *l, double x)
+Stack *add_head(Stack *l, double x) // Добавление головы, причем в двух вариациях(если голова изначально есть и если её нет)
 {
   if (l == NULL)
   {
@@ -20,13 +20,6 @@ Stack *add_head(Stack *l, double x)
       exit(1);
     l->x = x;
     l->next = NULL;
-  }
-
-  if (l->x == 0.0)
-  {
-    l->x = x;
-    l->next = NULL;
-    return l;
   }
 
   Stack *tmp = malloc(sizeof(Stack));
@@ -52,27 +45,4 @@ Stack *del_head(Stack *l)
   free(l);
   l = NULL;
   return tmp;
-}
-
-int len(Stack *l)
-{
-  int res = 0;
-  while (l != NULL)
-  {
-    res++;
-    l = l->next;
-  }
-  return res;
-}
-
-Stack get(Stack *l, int n)
-{
-  if (n > len(l))
-    exit(3);
-  int i;
-  for (i = 0; i < n; i++)
-  {
-    l = l->next;
-  }
-  return *l;
 }

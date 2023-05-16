@@ -1,4 +1,5 @@
-typedef struct tnode { 
+typedef struct tnode
+{
     int field;
     struct tnode *left;
     struct tnode *right;
@@ -7,9 +8,11 @@ typedef struct tnode {
 
 tree *init_root(tree *root, int field);
 tree *add_node(tree *root, int field);
-tree *find_node(tree * root, int field);
+tree *find_node(tree *root, int field);
 tree *minim(tree *root);
 tree *maxim(tree *root);
 tree *findForDel(tree *root);
 tree *del_node(tree *root, int field);
-void print_tree(tree *root);
+void preorder(tree *root);
+void inorder(tree *root);
+void postorder(tree *root);

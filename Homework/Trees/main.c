@@ -1,25 +1,31 @@
-#include <stdio.h>
-#include <stdio.h>
 #include "head.h"
-
-int main(int argc, char *argv[]){
-    tree *root=NULL;
-    root = init_root(root, 65);
-    print_tree(root);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+// Дерево улетает в SF
+int main(int argc, char *argv[])
+{
+    tree *root = NULL;
+    root = init_root(root, 'A');
+    preorder(root);
     printf("\n");
-    root=del_node(root, 65);
-    print_tree(root);
+    root = del_node(root, 'A');
+    preorder(root);
     printf("\n");
-    root = add_node(root, 70);
-    root = add_node(root, 66);
-    root = add_node(root, 68);
-    root = add_node(root, 71);
-    root = add_node(root, 67);
-    root = add_node(root, 72);
-    print_tree(root);
+    root = add_node(root, 'F');
+    root = add_node(root, 'B');
+    root = add_node(root, 'D');
+    root = add_node(root, 'G');
+    root = add_node(root, 'C');
+    root = add_node(root, 'H');
+    preorder(root);
     printf("\n");
-    root = del_node(root, 66);
-    print_tree(root);
+    postorder(root);
+    printf("\n");
+    inorder(root);
+    printf("\n");
+    root = del_node(root, 'B');
+    preorder(root);
     printf("\n");
     return 0;
 }

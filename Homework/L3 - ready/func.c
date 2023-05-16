@@ -1,6 +1,6 @@
 #include "head.h"
 
-void node_print(Node *n)
+void node_print(Unit *n)
 {
     while (n != NULL)
     {
@@ -9,7 +9,7 @@ void node_print(Node *n)
     }
 }
 
-Node get(Node *node, int n)
+Unit get(Unit *node, int n)
 {
     int i;
     for (i = 0; i < n; i++)
@@ -19,7 +19,7 @@ Node get(Node *node, int n)
     return *node;
 }
 
-int len(Node *n)
+int len(Unit *n)
 {
     int res = 0;
     while (n != NULL)
@@ -30,11 +30,11 @@ int len(Node *n)
     return res;
 }
 
-Node *xor_find(Node *n1, Node *n2)
+Unit *xor_find(Unit *n1, Unit *n2)
 {
     int i, j, f = 0;
-    Node *res = NULL;
-    if ((res = malloc(sizeof(Node))) == NULL)
+    Unit *res = NULL;
+    if ((res = malloc(sizeof(Unit))) == NULL)
     {
         printf("could not malloc\n");
         exit(3);
@@ -42,10 +42,10 @@ Node *xor_find(Node *n1, Node *n2)
 
     for (i = 0; i < len(n1); i++)
     {
-        Node tmp1 = get(n1, i);
+        Unit tmp1 = get(n1, i);
         for (j = 0; j < len(n2); j++)
         {
-            Node tmp2 = get(n2, j);
+            Unit tmp2 = get(n2, j);
             if (strcmp(tmp1.name, tmp2.name) == 0)
             {
                 f = 1;
@@ -53,7 +53,7 @@ Node *xor_find(Node *n1, Node *n2)
         }
         if (f == 0)
         {
-            Node tmp = get(n1, i);
+            Unit tmp = get(n1, i);
             res = add_tail(res, tmp.name);
         }
         f = 0;
@@ -61,10 +61,10 @@ Node *xor_find(Node *n1, Node *n2)
 
     for (i = 0; i < len(n2); i++)
     {
-        Node tmp2 = get(n2, i);
+        Unit tmp2 = get(n2, i);
         for (j = 0; j < len(n1); j++)
         {
-            Node tmp1 = get(n1, j);
+            Unit tmp1 = get(n1, j);
             if (strcmp(tmp2.name, tmp1.name) == 0)
             {
                 f = 1;
@@ -72,7 +72,7 @@ Node *xor_find(Node *n1, Node *n2)
         }
         if (f == 0)
         {
-            Node tmp = get(n2, i);
+            Unit tmp = get(n2, i);
             res = add_tail(res, tmp.name);
         }
         f = 0;
@@ -81,11 +81,11 @@ Node *xor_find(Node *n1, Node *n2)
     return res;
 }
 
-Node *add_tail(Node *n, char s[])
+Unit *add_tail(Unit *n, char s[])
 {
     if (n == NULL)
     {
-        if ((n = malloc(sizeof(Node))) == NULL)
+        if ((n = malloc(sizeof(Unit))) == NULL)
         {
             printf("could not malloc\n");
             exit(1);
@@ -103,11 +103,11 @@ Node *add_tail(Node *n, char s[])
         return n;
     }
 
-    Node *res = n;
+    Unit *res = n;
     while (n->next != NULL)
         n = n->next;
 
-    Node *tmp = malloc(sizeof(Node));
+    Unit *tmp = malloc(sizeof(Unit));
     memcpy(tmp->name, s, LEN);
     tmp->prev = n;
     n->next = tmp;

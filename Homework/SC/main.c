@@ -1,32 +1,40 @@
 #include "head.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
-
-int main(int argc, char *argv[]) {
+// Выдает неадекватные значения
+int main(int argc, char *argv[])
+{
   srand(time(0));
   Stack *numbers = malloc(sizeof(Stack));
   if (numbers == NULL)
     exit(1);
 
   char c;
-  char flag = 'f';
+  char flag = 'n';
 
-  while ((c = getchar()) != EOF) {
-    if (c == '\n') {
+  while ((c = getchar()) != EOF)
+  {
+    if (c == '\n')
+    {
       break;
-    } else if (c == ' ') {
-      flag = 't';
+    }
+    else if (c == ' ')
+    {
+      flag = 's';
       continue;
     }
 
-    switch (c) {
+    switch (c)
+    {
     case '0' ... '9':
-      if (flag == 't') {
+      if (flag == 's')
+      {
         numbers = add_head(numbers, (double)(c - '0'));
-        flag = 'f';
-      } else {
+        flag = 'n';
+      }
+      else
+      {
         double a = get(numbers, 0).x;
         numbers = del_head(numbers);
         a = a * 10 + c - '0';
@@ -38,7 +46,8 @@ int main(int argc, char *argv[]) {
     case '-':
     case '*':
     case '/':
-      if (len(numbers) < 2) {
+      if (len(numbers) < 2)
+      {
         printf("Invalid expression\n");
         exit(2);
       }
@@ -58,7 +67,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  printf("result: %lF\n", get(numbers, -1).x);
+  printf("res: %lF\n", get(numbers, 0).x);
 
   free(numbers);
   return 0;

@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "head.h"
 
-tree *init_root(tree *root, int field) 
+tree *init_root(tree *root, int field)
 {
     tree *tmp = malloc(sizeof(tree)); // Выделение памяти под корень дерева
-    tmp->field = field; // Присваивание значения ключу 
-    tmp->parent = NULL; // Присваивание указателю на родителя значения NULL
-    tmp->left = tmp->right = NULL; // Присваивание указателю на левое и правое поддерево значения NULL
+    tmp->field = field;               // Присваивание значения ключу
+    tmp->parent = NULL;               // Присваивание указателю на родителя значения NULL
+    tmp->left = tmp->right = NULL;    // Присваивание указателю на левое и правое поддерево значения NULL
     root = tmp;
     return root;
 }
@@ -79,46 +79,55 @@ tree *findForDel(tree *root)
 
 tree *del_node(tree *root, int field)
 {
-    printf("%d\n", root->field);
+    if (root == NULL)
+        return NULL;
+    
+
     // Поиск удаляемого узла по ключу
     tree *rig = root, *lef = NULL, *tmp = NULL;
-    // preorder(root);
-    printf("test");
     lef = find_node(root, field);
 
     // 1 случай: у узла нет потомков
     if ((lef->left == NULL) && (lef->right == NULL))
     {
-        tmp = lef->parent;
-        if (lef == tmp->right)
-            tmp->right = NULL;
+        printf("no children\n");
+        if (lef == lef->parent->right)
+            lef->parent->right = NULL;
         else
-            tmp->left = NULL;
+            lef->parent->left = NULL;
         free(lef);
+        return root;
     }
     // 2 случай: потомок один - поддерево справа
     if ((lef->left == NULL) && (lef->right != NULL))
     {
         tmp = lef->parent;
+        printf("left\n");
         if (lef == tmp->right)
+        {
             tmp->right = lef->right;
+        }
         else
             tmp->left = lef->right;
         free(lef);
+        return tmp;
     }
     // 2 случай: потомок один - поддерево слева
     if ((lef->left != NULL) && (lef->right == NULL))
     {
+        printf("right\n");
         tmp = lef->parent;
         if (lef == tmp->right)
             tmp->right = lef->left;
         else
             tmp->left = lef->left;
         free(lef);
+        return tmp;
     }
     // 3 случай: оба потомка
     if ((lef->left != NULL) && (lef->right != NULL))
     {
+        printf("both\n");
         tmp = findForDel(lef);
         lef->field = tmp->field;
         if (tmp->right == NULL)
@@ -135,7 +144,7 @@ void preorder(tree *root)
     if (root == NULL)
         return;
     if (root->field)
-        printf("%d ", root->field);
+        printf("%d\n", root->field);
     preorder(root->left);
     preorder(root->right);
 }

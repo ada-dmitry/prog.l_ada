@@ -8,7 +8,7 @@ int main()
 
     if (professions1 == NULL || professions2 == NULL)
     {
-        printf("Mesta net\n"); 
+        printf("Mesta net\n");
         exit(1);
     }
 
@@ -58,8 +58,6 @@ int main()
 
     st_fscanf(professions3, line_number, "professions.txt");
     sort_sel(professions3, line_number);
-
-    Sleep(50000);
 
     printf("\nTTretiy massiv is:\n");
     print_struc(professions3, line_number);

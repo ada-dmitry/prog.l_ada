@@ -7,8 +7,14 @@ int main(int argc, char *argv[])
 {
     tree *root = NULL;
     root = init_root(root, 'A');
-    // preorder(root);
+    preorder(root);
+
+    root = add_node(root, 'r');
+    preorder(root);
+
     root = del_node(root, 'A');
+    preorder(root);
+
     exit(0);
     // preorder(root);
     printf("\n");

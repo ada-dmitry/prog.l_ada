@@ -5,7 +5,9 @@
 #include <time.h>
 #include <string.h>
 
-void pr(tower *tmp)
+#define max(x, y) (((x) > (y)) ? (x) : (y))
+
+void pr(node *tmp)
 {
     if (tmp == NULL)
     {
@@ -14,63 +16,52 @@ void pr(tower *tmp)
     }
     while (tmp)
     {
-        printf("[%14p]<-[%14p]->[%14p] ", tmp->prev, tmp, tmp->next);
-        printf("data: [%4ld] s[%s]\n", tmp->data, tmp->s);
+        printf("[%14p]->[%14p] ", tmp, tmp->next);
+        printf("size: [%4d]\n", tmp->size);
         tmp = tmp->next;
     }
     printf("-------------\n");
 }
-tower *add_head(tower *crown, int hh)
+node *add_head(node *head, int hh)
 {
-    tower *tmp = NULL;
-    int i;
-    if ((tmp = malloc(sizeof(tower))) == NULL)
+    node *tmp = NULL;
+    if ((tmp = malloc(sizeof(node))) == NULL)
     {
         perror("malloc: NULL");
         exit(2);
     }
-    tmp->prev = NULL;
-    tmp->data = hh;
-    for (i = 0; i < N - 1; i++)
-        tmp->s[i] = ((char)(65 + rand() % 25));
-    tmp->s[N - 1] = '\0';
-    if (crown == NULL)
+    tmp->size = hh;
+    if (head == NULL)
         tmp->next = NULL;
     else
     {
-        tmp->next = crown;
-        crown->prev = tmp;
+        tmp->next = head;
     }
     return tmp;
 }
-tower *del_head(tower *crown)
+node *del_head(node *head)
 {
-    tower *tmp = crown;
-    if (crown == NULL)
+    node *tmp = head;
+    if (head == NULL)
         return NULL;
-    if (crown->next == NULL)
+    if (head->next == NULL)
     {
-        free(crown);
+        free(head);
         return NULL;
     }
-    crown = crown->next;
-    crown->prev = NULL;
+    head = head->next;
     free(tmp);
-    return crown;
+    return head;
 }
 
-int length(tower *list)
+int length(node *list)
 {
-    tower *tmp = list;
+    node *tmp = list;
     int res = 0;
-    if (list == NULL)
-        return 0;
-    if (list->data == 0 && !strcmp(list->s, "\0"))
+    if (list == NULL || list->size == 0)
         return 0;
     else
     {
-        while (tmp->prev != NULL)
-            tmp = tmp->prev;
         while (tmp != NULL)
         {
             res++;
@@ -80,41 +71,18 @@ int length(tower *list)
     return res;
 }
 
-tower *adv_add_head(tower *crown, int hh, char string[])
+void swap(node *a, node *b)
 {
-    tower *tmp = NULL;
-    if ((tmp = malloc(sizeof(tower))) == NULL)
-    {
-        perror("malloc: NULL");
-        exit(2);
-    }
-    tmp->prev = NULL;
-    tmp->data = hh;
-    memcpy(tmp->s, string, N);
-    if (crown == NULL)
-        tmp->next = NULL;
-    else
-    {
-        tmp->next = crown;
-        crown->prev = tmp;
-    }
-    return tmp;
-}
-void swap(tower *a, tower *b)
-{
-    tower *tmp = NULL;
-    if ((tmp = malloc(sizeof(tower))) == NULL)
+    node *tmp = NULL;
+    if ((tmp = malloc(sizeof(node))) == NULL)
         exit(1);
-    tmp->data = a->data;
-    a->data = b->data;
-    b->data = tmp->data;
-    memcpy(tmp->s, a->s, N);
-    memcpy(a->s, b->s, N);
-    memcpy(b->s, tmp->s, N);
+    tmp->size = a->size;
+    a->size = b->size;
+    b->size = tmp->size;
     free(tmp);
 }
 
-tower *get(tower *list, int n)
+node *get(node *list, int n)
 {
     if (n >= length(list))
         exit(3);
@@ -124,73 +92,101 @@ tower *get(tower *list, int n)
     return list;
 }
 
-tower *sort(tower *crown)
+node *sort(node *head)
 {
-    if (crown == NULL || crown->next == NULL)
-        return crown;
-    int i, j, n = length(crown);
+    if (head == NULL || head->next == NULL)
+        return head;
+    int i, j, n = length(head);
     for (i = 0; i < n - 1; i++)
     {
         for (j = i + 1; j < n; j++)
         {
-            if (get(crown, j)->data < get(crown, i)->data)
-                swap(get(crown, i), get(crown, j));
+            if (get(head, j)->size < get(head, i)->size)
+                swap(get(head, i), get(head, j));
         }
     }
-    return crown;
+    return head;
 }
-tower *printextra(tower *crown, int len, int i)
+pointer *add_head_address(pointer *head, node **address)
 {
-    if (len < i || len == 0)
+    pointer *tmp = NULL;
+    if ((tmp = malloc(sizeof(pointer))) == NULL)
     {
-        printf("*********************************|");
-        return crown;
+        perror("malloc: NULL");
+        exit(2);
     }
+    tmp->address = address;
+    if (head == NULL)
+        tmp->next = NULL;
     else
     {
-        printf("[%14p] data: [%4ld] s[%s]|", crown, crown->data, crown->s);
-        return crown->prev;
+        tmp->next = head;
     }
-}
-tower *end(tower *crown)
-{
-    tower *tmp = NULL;
-    tmp = crown;
-    if (crown == NULL)
-        return crown;
-    while (tmp->next != NULL)
-        tmp = tmp->next;
     return tmp;
 }
 
-void printftof(tower *head1, tower *head2, tower *head3)
+node *printextra(node *head, int len, int i)
 {
-    int a = length(head1), b = length(head2), c = length(head3), maximum, i;
-    maximum = max(a, b);
-    maximum = max(maximum, c);
-    head1 = end(head1);
-    head2 = end(head2);
-    head3 = end(head3);
-    for (i = maximum; i > 0; i--)
+    if (len < i || len == 0)
+    {
+        for (i = 0; i < T - 1; i++)
+            printf(" ");
+        printf("|");
+        return head;
+    }
+    else
+    {
+        disk(head->size);
+        printf("|");
+        return head->next;
+    }
+}
+
+void prcount(char s, int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+    {
+        printf("%c", s);
+    }
+}
+void disk(int size)
+{
+    int i;
+    prcount(' ', T / 2 - size);
+    for (i = 0; i < size - 1; i++)
+    {
+        printf("* ");
+    }
+    printf("*");
+    prcount(' ', T / 2 - size);
+}
+void printftof(pointer *adresses)
+{
+    node *head1 = *(adresses->address), *head2 = *(adresses->next->address), *head3 = *(adresses->next->next->address);
+    int a = length(head1), b = length(head2), c = length(head3), i; // maximum
+    // maximum = max(max(a, b), c);
+    for (i = T / 2; i > 0; i--)
     {
         head1 = printextra(head1, a, i);
         head2 = printextra(head2, b, i);
         head3 = printextra(head3, c, i);
         printf("\n");
     }
-    printf("----------------------------------------------------------------------------------------------------------\n");
-    printf("Tower 1                           |Tower 2                           |Tower 3                           |\n");
-    printf("----------------------------------------------------------------------------------------------------------\n\n");
-}
-int max(int a, int b)
-{
-    if (a < b)
-        return b;
-    else
-        return a;
+    prcount('-', 3 * T);
+    printf("\n");
+    printf("Tower 1");
+    prcount(' ', T - 8);
+    printf("|Tower 2");
+    prcount(' ', T - 8);
+    printf("|Tower 3");
+    prcount(' ', T - 8);
+    printf("|\n");
+    prcount('-', 3 * T);
+    printf("\n");
 }
 
-void hanoi_tower(int n, tower **head_from, tower **head_to, tower **head_aux, tower **const tower1, tower **const tower2, tower **const tower3)
+void hanoi_tower(int n, node **head_from, node **head_to, node **head_aux, pointer *adresses)
 {
     if (n == 0)
     {
@@ -200,17 +196,17 @@ void hanoi_tower(int n, tower **head_from, tower **head_to, tower **head_aux, to
     else if (n == 1)
     {
         if (length(*head_to) == 0)
-            printftof(*tower1, *tower2, *tower3);
-        *head_to = adv_add_head(*head_to, (*head_from)->data, (*head_from)->s);
+            printftof(adresses);
+        *head_to = add_head(*head_to, (*head_from)->size);
         *head_from = del_head(*head_from);
         if (length(*head_from) == 0)
-            printftof(*tower1, *tower2, *tower3);
+            printftof(adresses);
         return;
     }
-    hanoi_tower(n - 1, head_from, head_aux, head_to, tower1, tower2, tower3);
-    printftof(*tower1, *tower2, *tower3);
-    *head_to = adv_add_head(*head_to, (*head_from)->data, (*head_from)->s);
+    hanoi_tower(n - 1, head_from, head_aux, head_to, adresses);
+    printftof(adresses);
+    *head_to = add_head(*head_to, (*head_from)->size);
     *head_from = del_head(*head_from);
-    printftof(*tower1, *tower2, *tower3);
-    hanoi_tower(n - 1, head_aux, head_to, head_from, tower1, tower2, tower3);
+    printftof(adresses);
+    hanoi_tower(n - 1, head_aux, head_to, head_from, adresses);
 }

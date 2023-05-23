@@ -1,23 +1,27 @@
 #define N 10
+#define T 20
 
 typedef struct Node
 {
-    long int data;
+    int size;
     struct Node *next;
-    struct Node *prev;
-    char s[N];
-} tower;
+} node;
+typedef struct nodepointer
+{
+    struct nodepointer *next;
+    struct Node **address;
+} pointer;
 
-void pr(tower *tmp);
-tower *add_head(tower *crown, int hh);
-tower *del_head(tower *crown);
-int length(tower *list);
-tower *sort(tower *crown);
-tower *get(tower *list, int n);
-void swap(tower *a, tower *b);
-tower *adv_add_head(tower *crown, int hh, char string[]);
-void hanoi_tower(int n, tower **head_from, tower **head_to, tower **head_aux, tower **const tower1, tower **const tower2, tower **const tower3);
-void printftof(tower *head1, tower *head2, tower *head3);
-tower *end(tower *crown);
-tower *printextra(tower *crown, int len, int i);
-int max(int a, int b);
+void pr(node *tmp);
+node *add_head(node *head, int hh);
+node *del_head(node *head);
+pointer *add_head_address(pointer *head, node **address);
+int length(node *list);
+node *sort(node *head);
+node *get(node *list, int n);
+void swap(node *a, node *b);
+void hanoi_tower(int n, node **head_from, node **head_to, node **head_aux, pointer *adresses);
+void printftof(pointer *adresses);
+node *printextra(node *head, int len, int i);
+void disk(int size);
+void prcount(char s, int n);

@@ -1,28 +1,35 @@
 #include "prot.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[])
 {
 
-    tower *crown1 = NULL, *crown2 = NULL, *crown3 = NULL;
+    node *head = NULL, *head2 = NULL, *head3 = NULL;
+    pointer *addresses = NULL;
     int r;
 
     srand(time(NULL));
 
-    printf("Generated linked list (method of crown1)\n");
-    while ((r = (rand() % 100)) < 75)
-        crown1 = add_head(crown1, r);
-    pr(crown1);
-
-    printf("Length of linked list is: %d\n", length(crown1));
-
+    printf("Generated linked list (method of head)\n");
+    /*while ((r=(rand()%T)) < T/2){
+        if (r==0) r+=1;
+        head = add_head(head, r);
+    }*/
+    for (r = 1; r <= T / 2; r++)
+    {
+        head = add_head(head, r);
+    }
+    pr(head);
+    printf("Length of linked list is: %d\n", length(head));
     printf("Sorted linked list\n");
-    sort(crown1);
-    pr(crown1);
-
-    hanoi_tower(length(crown1), &crown1, &crown3, &crown2, &crown1, &crown2, &crown3);
+    sort(head);
+    pr(head);
+    addresses = add_head_address(addresses, &head3);
+    addresses = add_head_address(addresses, &head2);
+    addresses = add_head_address(addresses, &head);
+    hanoi_tower(length(head), &head, &head3, &head2, addresses);
     return 0;
 }

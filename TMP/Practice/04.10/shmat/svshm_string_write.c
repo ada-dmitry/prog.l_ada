@@ -1,60 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/ipc.h>
+#include <string.h>
 #include <sys/sem.h>
-#include <unistd.h>
+#include <sys/shm.h>
 
-static void
-usage(const char *pname)
-{
-    fprintf(stderr, "Usage: %s [-cx] pathname proj-id num-sems\n",
-            pname);
-    fprintf(stderr, "    -c           Use IPC_CREAT flag\n");
-    fprintf(stderr, "    -x           Use IPC_EXCL flag\n");
-    exit(EXIT_FAILURE);
-}
+#include "svshm_string.h"
 
 int main(int argc, char *argv[])
 {
-    int semid, nsems, flags, opt;
-    key_t key;
+    int semid, shmid;
+    char *addr;
+    size_t len;
+    struct sembuf sop;
 
-    flags = 0;
-    while ((opt = getopt(argc, argv, "cx")) != -1)
+    if (argc != 4)
     {
-        switch (opt)
-        {
-        case 'c':
-            flags |= IPC_CREAT;
-            break;
-        case 'x':
-            flags |= IPC_EXCL;
-            break;
-        default:
-            usage(argv[0]);
-        }
-    }
-
-    if (argc != optind + 3)
-        usage(argv[0]);
-
-    key = ftok(argv[optind], argv[optind + 1][0]);
-    if (key == -1)
-    {
-        perror("ftok");
+        fprintf(stderr, "Usage: %s shmid semid string\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    nsems = atoi(argv[optind + 2]);
-
-    semid = semget(key, nsems, flags | 0600);
-    if (semid == -1)
+    len = strlen(argv[3]) + 1; /* +1 to include trailing '\0' */
+    if (len > MEM_SIZE)
     {
-        perror("semget");
+        fprintf(stderr, "String is too big!\n");
         exit(EXIT_FAILURE);
     }
 
-    printf("ID = %d\n", semid);
+    /* Get object IDs from command-line. */
+    if((key = ftok("bin/sh", 'A')) = -1) errExit
+    shmid = atoi(argv[1]);
+    semid = atoi(argv[2]);
+
+    /* Attach shared memory into our address space and copy string
+       (including trailing null byte) into memory. */
+
+    addr = shmat(shmid, NULL, 0);
+    if (addr == (void *)-1)
+        errExit("shmat");
+
+    memcpy(addr, argv[3], len);
+
+    /* Decrement semaphore to 0. */
+
+    sop.sem_num = 0;
+    sop.sem_op = -1;
+    sop.sem_flg = 0;
+
+    if (semop(semid, &sop, 1) == -1)
+        errExit("semop");
 
     exit(EXIT_SUCCESS);
 }
